@@ -7,8 +7,8 @@ import (
 
 type RestErr struct {
 	Message string `json:"message"`
-	Error   string `json:"error"`
 	Status  int    `json:"status"`
+	Error   string `json:"error"`
 }
 
 func NewError(msg string) error {

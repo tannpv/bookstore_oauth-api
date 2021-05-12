@@ -2,7 +2,6 @@ package rest
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/mercadolibre/golang-restclient/rest"
 	"github.com/tannpv/bookstore_oauth-api/src/domain/users"
 	"github.com/tannpv/bookstore_oauth-api/src/utils/errors"
@@ -11,7 +10,7 @@ import (
 
 var (
 	usersRestClient = rest.RequestBuilder{
-		BaseURL: "https://api.boookstore.com",
+		BaseURL: "https://api.bookstore.com",
 		Timeout: 100 * time.Millisecond,
 	}
 )
@@ -34,7 +33,6 @@ func (r *usersRepository) LoginUser(email string, password string) (*users.User,
 		return nil, errors.NewInternalServerError("invalid restclient response when trying to login user")
 	}
 	if response.StatusCode > 299 {
-		fmt.Println(response.String())
 		var restErr errors.RestErr
 		err := json.Unmarshal(response.Bytes(), &restErr)
 		if err != nil {
@@ -44,7 +42,7 @@ func (r *usersRepository) LoginUser(email string, password string) (*users.User,
 	}
 	var user users.User
 	if err := json.Unmarshal(response.Bytes(), &user); err != nil {
-		return nil, errors.NewInternalServerError("error when trying to unmarshal users response")
+		return nil, errors.NewInternalServerError("error when trying to unmarshal users login response")
 	}
 	return &user, nil
 }
